@@ -1,0 +1,246 @@
+clc
+clear
+%This algorithm uses loops to take a starbucks customers frappuchino order
+%using various inputs. At the end the final price is calculated and a
+%recipt is created.
+disp('Welcome to Starbucks!')
+people=input('Enter the number of people in party: ');
+fprintf('\n')
+ 
+for i=1:people
+disp('What is your name?')
+singname=input('Enter name: ','s');
+fprintf('\n')
+names(i)=cellstr(singname);
+disp('How many frappuccinos would you like to order?')
+nfraps(i)=input('Number: ');
+fprintf('\n')
+end
+
+nn=sum(nfraps);
+%Algorithm Counters
+finalpay=0;
+totalcost=0;
+payment2=0;
+payment3=0;
+sum2=0;
+tip=0;
+subtotal=0;
+conditiona=0;
+conditionb=0;
+totchoc=0;
+totwc=0;
+totcaramel=0;
+totespresso=0;
+
+drinkcost(nn)=0;
+frapno(nn)=0;
+wc(nn)=0;
+choc(nn)=0;
+caramel(nn)=0;
+espresso(nn)=0;
+%Assign values for responses
+yesanswer='yes';
+noanswer='no';
+yesanswer2='Yes';
+noanswer2='No';
+%Build the Fraps
+for i=1:nn
+    frapno(i)=i;
+    subtotal=5.00;
+    fprintf('For frappuchino number%2.0f:\n\n',frapno(i))
+    chocchoice=input('Would you like chocolate? ','s');
+    ayes = strcmp(yesanswer,chocchoice);
+    ayes2= strcmp(yesanswer2,chocchoice);
+    ano2= strcmp(noanswer2,chocchoice);
+    ano = strcmp(noanswer,chocchoice);
+    if ayes==1 || ayes2==1
+    choc(i)=1;
+    subtotal=subtotal+0.50;
+    disp('Chocolate added')
+    elseif ano==1 || ano2==1
+    disp('No Chocolate added')
+    else
+        disp('Invalid Response. No is assumed')
+    end
+    fprintf('\n')
+    wcchoice=input('Would you like whipped cream? ','s');
+    cyes = strcmp(yesanswer,wcchoice);
+    cyes2= strcmp(yesanswer2,wcchoice);
+    cno2= strcmp(noanswer2,wcchoice);
+    cno = strcmp(noanswer,wcchoice);
+    if cyes==1 || cyes2==1
+    wc(i)=1;
+    subtotal=subtotal+0.50;
+    disp('Whipped cream added')
+    elseif cno==1 || cno2==1
+    disp('No whipped cream added')
+    else
+        disp('Invalid Response. No is assumed')
+    end
+    fprintf('\n')
+    caramelchoice=input('Would you like caramel? ','s');
+    fyes = strcmp(yesanswer,caramelchoice);
+    fyes2= strcmp(yesanswer2,caramelchoice);
+    fno2= strcmp(noanswer2,caramelchoice);
+    fno = strcmp(noanswer,caramelchoice);
+    if fyes==1 || fyes2==1
+    caramel(i)=1;
+    subtotal=subtotal+0.50;
+    disp('Caramel added')
+    elseif fno==1 || fno2==1
+    disp('No caramel added')
+    else
+        disp('Invalid Response. No is assumed')
+    end
+    fprintf('\n')
+    espressochoice=input('Would you like espresso? ','s');
+    gyes = strcmp(yesanswer,espressochoice);
+    gyes2= strcmp(yesanswer2,espressochoice);
+    gno2= strcmp(noanswer2,espressochoice);
+    gno = strcmp(noanswer,espressochoice);
+    if gyes==1 || gyes2==1
+    espresso(i)=1;
+    subtotal=subtotal+0.50;
+    disp('Espresso added')
+    elseif gno==1 || gno2==1
+    disp('No espresso added')
+    else
+        disp('Invalid Response. No is assumed')
+    end
+    fprintf('\n')
+%Store the cost of drink number nn
+drinkcost(i)=subtotal;
+if i~=nn
+    disp('Next Frappuchino Order')
+else
+end
+end
+ 
+%Enter the elements of the table and add up the price
+for i=1:people
+    fprintf('Order for: ')
+    disp(char(names(i)))
+    for j=nfraps(i)
+    fprintf('Frappuchino Whipped Cream\t Chocolate\t Caramel  Espresso  Drink Cost \n')
+    fprintf('******************************************************************\n')
+    fprintf(' %d\t\t\t\t %d\t\t\t  %d\t\t\t%d\t\t  %d\t\t $%6.2f \n',frapno(i),wc(i),choc(i),caramel(i),espresso(i),drinkcost(i))
+    totalcost=drinkcost(i)+totalcost;
+    end
+end
+%give the total number of elements
+
+%Add tax, ask for payment, and compute a tip else address an underpayment
+pay=totalcost*1.10;
+tax=totalcost*0.10;
+fprintf('\n')
+fprintf('With tax, the total comes out to $%6.2f\n',pay)
+payment=input('Enter amount of money given: $ ');
+possibtip=payment-pay;
+opppay=abs(pay-payment);
+if possibtip>=0
+    fprintf('Your change is $ %4.2f. Tips are always appreciated!\n',possibtip)
+    conditionb=1;
+    conditiona=1;
+elseif possibtip<0
+    fprintf('This is not enough money. You are short by $%4.2f. Please add more money. Do not underpay again.\n',opppay)
+    morepay=-1*(payment-pay);
+    fprintf('I need at least $%5.2f more\n',morepay)
+    payment2=input('Enter amount of money added: $ ');
+    conditiona=0;
+    conditionb=0;
+    payment3=payment2+payment;
+    sum2=payment3-pay;
+end
+    if conditionb==0 && sum2>=0
+        fprintf('Your change is $ %4.2f\n A tip would still be appreciated.\n',sum2)
+        conditiona=1;
+    elseif conditionb==0 && sum2<0
+        disp('Underpaid again. No Frappuchinos for you!')
+        conditiona=0;
+    end
+if conditiona==1
+    tip=input('Enter tip amount: $ ');
+else
+end
+if tip>0
+    fprintf('Thank you for the tip of $%4.2f\n',tip)
+else
+    disp('You are a cheap tipper!')
+end
+
+%Create a reciept for a purchase 
+finalpay=totalcost+tip;
+totespresso=sum(espresso);
+totcaramel=sum(caramel);
+totwc=sum(wc);
+totchoc=sum(choc);
+   
+rec=input('Would you like a reciept? ','s');
+yes = strcmp(yesanswer,rec);
+yes2= strcmp(yesanswer2,rec);
+frapsum=nn*5.00;
+espsum=totespresso*0.50;
+carmsum=totcaramel*0.50;
+wcsum=totwc*0.50;
+chocsum=totchoc*0.50;
+
+if yes==1 || yes2==1
+    figure
+    x=[3:1:7];
+    y=[3,3,3,3,3];
+    plot(x,y,'k')
+    axis([0 10 0 5])
+    set(gca,'YTickLabel',[])
+    set(gca,'YTick',[])
+    set(gca,'XTickLabel',[])
+    set(gca,'XTick',[])
+    
+    text(5,4.5, 'Starbucks','HorizontalAlignment','center','fontsize',40)
+    text(5,3.8, 'Thank You For Choosing Starbucks','HorizontalAlignment','center','fontsize',10)
+    text(5,3.5, '1 LMU Dr, Los Angeles, CA','HorizontalAlignment','center','fontsize',10)
+    text(5,3.2, '(310) 338-5369','HorizontalAlignment','center','fontsize',10)
+    text(.3,2.8, 'Served by:  Robert Maples','fontsize',12)
+    text(1,2.5, sprintf('Frappuchino'),'fontsize',10)
+    text(9,2.5, sprintf('$%4.2f',frapsum),'HorizontalAlignment','right','fontsize',10)
+    text(4,2.5, sprintf('(%2.0f )',nn),'HorizontalAlignment','center','fontsize',10)
+    
+    text(1,2.3, sprintf('Chocolate'),'fontsize',10)
+    text(9,2.3, sprintf('$%4.2f',chocsum),'HorizontalAlignment','right','fontsize',10)
+    text(4,2.3, sprintf('(%2.0f )',totchoc),'HorizontalAlignment','center','fontsize',10)
+    
+    text(1,2.1, sprintf('Whipped Cream'),'fontsize',10)
+    text(9,2.1, sprintf('$%4.2f',wcsum),'HorizontalAlignment','right','fontsize',10)
+    text(4,2.1, sprintf('(%2.0f )',totwc),'HorizontalAlignment','center','fontsize',10)
+    
+    text(1,1.9, sprintf('Caramel'),'fontsize',10)
+    text(9,1.9, sprintf('$%4.2f',carmsum),'HorizontalAlignment','right','fontsize',10)
+    text(4,1.9, sprintf('(%2.0f )',totcaramel),'HorizontalAlignment','center','fontsize',10)
+    
+    text(1,1.7, sprintf('Espresso'),'fontsize',10)
+    text(9,1.7, sprintf('$%4.2f',espsum),'HorizontalAlignment','right','fontsize',10)
+    text(4,1.7, sprintf('(%2.0f )',totespresso),'HorizontalAlignment','center','fontsize',10)
+    
+    text(4.2,1.4, sprintf('Subtotal:'),'HorizontalAlignment','left','fontsize',10)
+    text(7,1.4, sprintf('$%4.2f',totalcost),'HorizontalAlignment','center','fontsize',10)
+    
+    text(4.2,1.2, sprintf('Tax:'),'HorizontalAlignment','left','fontsize',10)
+    text(7,1.2, sprintf('$%4.2f',tax),'HorizontalAlignment','center','fontsize',10)
+    
+    text(4.2,1, sprintf('Tip:'),'HorizontalAlignment','left','fontsize',10)
+    text(7,1, sprintf('$%4.2f',tip),'HorizontalAlignment','center','fontsize',10)
+    text(6.3,.98, sprintf('+'),'HorizontalAlignment','left','fontsize',10)
+    x1=[6.385,6.5,6.8,7.1,7.3,7.6];
+    y1=[.9,.9,.9,.9,.9,.9];
+    hold on
+    plot(x1,y1,'k')
+    
+    text(4.2,.65, sprintf('TOTAL:'),'HorizontalAlignment','left','fontsize',15)
+    text(7,.65, sprintf('$%4.2f',finalpay),'HorizontalAlignment','center','fontsize',15)
+    
+    text(5,.2, sprintf('Customer Copy'),'HorizontalAlignment','center','fontsize',8)
+    
+else
+    disp('No reciept')
+end
+disp('Have a good day!')
